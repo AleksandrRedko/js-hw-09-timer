@@ -7,6 +7,10 @@ const refs = {
   Hours: document.querySelector(".value[data-hours]"),
   Minutes: document.querySelector(".value[data-minutes]"),
   Seconds: document.querySelector(".value[data-seconds]"),
+  fieldMinutes: document.querySelector(".js-minutes"),
+  fieldHours: document.querySelector(".js-hours"),
+  fieldDays: document.querySelector(".js-days"),
+  fieldSeconds: document.querySelector(".js-seconds"),
 };
 
 let selectedDate = null;
@@ -21,6 +25,7 @@ const options = {
     if (selectedDates[0] > new Date()) {
       selectedDate = selectedDates[0];
       refs.btnStart.disabled = false;
+      refs.btnStart.textContent = "Старт";
     }
     if (selectedDates[0] <= new Date()) {
       selectedDates[0] = new Date();
@@ -39,6 +44,12 @@ function updateClockface({days, hours, minutes, seconds}) {
   refs.Seconds.textContent = `${seconds}`;
 }
 
+function updateBackgroundEffect({d, h, m, s}) {
+  refs.fieldDays.style.background = `conic-gradient(#02c2c2 0 ${d}%, #303238 ${d}% 100%)`;
+  refs.fieldHours.style.background = `conic-gradient(#02c2c2 0 ${h}%, #303238 ${h}% 100%)`;
+  refs.fieldMinutes.style.background = `conic-gradient(#02c2c2 0 ${m}%, #303238 ${m}% 100%)`;
+  refs.fieldSeconds.style.background = `conic-gradient(#02c2c2 0 ${s}%, #303238 ${s}% 100%)`;
+}
 class Timer {
   constructor({onTick}) {
     this.onTick = onTick;
@@ -67,6 +78,26 @@ class Timer {
 
     return {days, hours, minutes, seconds};
   }
+  updateProcent({days, hours, minutes, seconds}) {
+    let s = 100 - (100 / 60) * seconds;
+    if (seconds === 0) {
+      s = 0;
+    }
+    let m = 100 - (100 / 60) * minutes;
+    if (minutes === 0) {
+      m = 0;
+    }
+    let h = 100 - (100 / 24) * hours;
+    if (hours === 0) {
+      h = 0;
+    }
+    let d = 100 / days;
+    if (days === 0) {
+      d = 0;
+    }
+    return {d, h, m, s};
+    // refs.field.style.background = `conic-gradient(#02c2c2 0 ${s}%, #303238 ${s}% 100%)`;
+  }
   timeDifference() {
     refs.btnStart.disabled = true;
     const intervalId = setInterval(() => {
@@ -75,8 +106,11 @@ class Timer {
         clearInterval(intervalId);
       }
       const time = this.convertMs(this.ms);
+      const procent = this.updateProcent(time);
 
       updateClockface(time);
+      this.updateProcent(time);
+      updateBackgroundEffect(procent);
     }, 1000);
   }
   addLeadingZero(value) {

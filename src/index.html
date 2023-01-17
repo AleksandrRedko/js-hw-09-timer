@@ -10,26 +10,32 @@
     <div class="back-image">
       <section>
         <div class="input-date-block">
-          <div class="input-date">
-            <input type="text" id="datetime-picker" />
-            <button type="button" data-start>Start</button>
-          </div>
-          <div class="timer">
-            <div class="field">
+          <input type="text" id="datetime-picker" />
+          <button type="button" data-start>Виберіть дату</button>
+        </div>
+        <div class="timer">
+          <div class="field js-days">
+            <div class="conic">
               <span class="value" data-days>00</span>
-              <span class="label">Days</span>
+              <span class="label">Днів</span>
             </div>
-            <div class="field">
+          </div>
+          <div class="field js-hours">
+            <div class="conic">
               <span class="value" data-hours>00</span>
-              <span class="label">Hours</span>
+              <span class="label">Годин</span>
             </div>
-            <div class="field">
+          </div>
+          <div class="field js-minutes">
+            <div class="conic">
               <span class="value" data-minutes>00</span>
-              <span class="label">Minutes</span>
+              <span class="label">Хвилин</span>
             </div>
-            <div class="field">
+          </div>
+          <div class="field js-seconds">
+            <div class="conic">
               <span class="value" data-seconds>00</span>
-              <span class="label">Seconds</span>
+              <span class="label">Секунд</span>
             </div>
           </div>
         </div>
